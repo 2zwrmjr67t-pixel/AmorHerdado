@@ -359,7 +359,7 @@
     <button class="tab-btn" onclick="showTab('manifesto')">📄 Manifesto</button>
     <button class="tab-btn" onclick="showTab('pilares')">⚙️ 3 Pilares</button>
     <button class="tab-btn" onclick="showTab('vendas')">📊 Vendas</button>
-    <button class="tab-btn" onclick="showTab('ingressos')">🎫 Ingressos</button>
+    <button class="tab-btn" onclick="showTab('stickers')">🎨 Stickers</button>
     <button class="tab-btn" onclick="showTab('analise')">📈 Análise</button>
   </div>
 
@@ -595,32 +595,66 @@
     </div>
   </div>
 
-  <!-- TAB: INGRESSOS -->
-  <div id="ingressos" class="tab-content">
-    <div class="highlight">
-      <strong>📌 Linha em desenvolvimento:</strong> Ingressos Memoráveis com QR Code. Aqui você vai planejar lançamentos de ingressos históricos do Inter.
+  <!-- TAB: STICKERS -->
+  <div id="stickers" class="tab-content">
+    <div class="section">
+      <div class="section-title">Ideias de Stickers</div>
+      <p class="prose">Aqui você, sua mãe e seu pai vão documentar todas as ideias de stickers que vocês têm. Cada ideia é um potencial produto.</p>
     </div>
 
     <div class="section">
-      <div class="section-title">Próximo Ingresso a Lançar</div>
+      <div class="section-title">Adicionar Nova Ideia</div>
       <div class="form-group">
-        <label>Nome do ingresso</label>
-        <input type="text" placeholder="Ex: Tri Campeonato 1975">
+        <label>Nome do sticker</label>
+        <input type="text" id="nomeSticker" placeholder="Ex: Amor de Curva, Fernandão, Primeiro Jogo">
       </div>
       <div class="form-group">
-        <label>Data/Época</label>
-        <input type="text" placeholder="Ex: 15 de outubro de 1975">
+        <label>Qual pilar?</label>
+        <select id="pilarSticker">
+          <option value="">Escolha um pilar</option>
+          <option value="amor-de-curva">❤️ Amor de Curva</option>
+          <option value="inter">⚽ Inter</option>
+          <option value="conquistas">🎫 Conquistas</option>
+        </select>
       </div>
       <div class="form-group">
-        <label>História por trás</label>
-        <textarea style="width: 100%; padding: 10px; border: 1px solid #DDD; border-radius: 2px; font-family: 'Inter', sans-serif;" rows="3" placeholder="A história..."></textarea>
+        <label>Descrição/Ideia</label>
+        <textarea style="width: 100%; padding: 10px; border: 1px solid #DDD; border-radius: 2px; font-family: 'Inter', sans-serif;" rows="3" id="descSticker" placeholder="Como você imagina esse sticker? Que cores? Que mensagem?"></textarea>
       </div>
-      <button class="btn btn-primary">Salvar Ideia</button>
+      <div class="form-group">
+        <label>Status</label>
+        <select id="statusSticker">
+          <option value="ideia">💡 Ideia</option>
+          <option value="design">🎨 Em design</option>
+          <option value="pronto">✅ Pronto</option>
+          <option value="lancado">🚀 Lançado</option>
+        </select>
+      </div>
+      <button class="btn btn-primary" onclick="adicionarSticker()">Adicionar Ideia</button>
     </div>
 
     <div class="section">
-      <div class="section-title">Seus 3 Pilares de Ingressos</div>
-      <p class="prose"><strong>Amor de Curva:</strong> Ingressos que celebram a intensidade, a banda, o trapo.<br><br><strong>Inter:</strong> Ingressos históricos (1975, 1980, 2005, etc) que contam história do time.<br><br><strong>Conquistas:</strong> Ingressos personalizados com QR code — seu primeiro jogo, jogo que você estava lá, momentos memoráveis.</p>
+      <div class="section-title">Suas Ideias de Stickers</div>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Sticker</th>
+            <th>Pilar</th>
+            <th>Status</th>
+            <th>Descrição</th>
+            <th>Ação</th>
+          </tr>
+        </thead>
+        <tbody id="tabelaStickers">
+          <tr><td colspan="5" style="text-align: center; color: #999;">Nenhuma ideia registrada ainda</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Próximos Stickers a Desenvolver</div>
+      <p class="prose" style="margin-bottom: 16px;">Aqui você vê as ideias que estão em design ou prontas pra lançar.</p>
+      <div id="proximosStickers" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px;"></div>
     </div>
   </div>
 
@@ -810,18 +844,110 @@
     `;
   }
 
+  function adicionarSticker() {
+    const nome = document.getElementById('nomeSticker').value;
+    const pilar = document.getElementById('pilarSticker').value;
+    const desc = document.getElementById('descSticker').value;
+    const status = document.getElementById('statusSticker').value;
+
+    if (!nome || !pilar || !desc) {
+      alert('Preenche todos os campos!');
+      return;
+    }
+
+    const sticker = {
+      id: Date.now(),
+      nome,
+      pilar,
+      desc,
+      status,
+      dataCriacao: new Date().toLocaleDateString('pt-BR')
+    };
+
+    let stickers = JSON.parse(localStorage.getItem('amorHerdadoStickers')) || [];
+    stickers.push(sticker);
+    localStorage.setItem('amorHerdadoStickers', JSON.stringify(stickers));
+
+    document.getElementById('nomeSticker').value = '';
+    document.getElementById('pilarSticker').value = '';
+    document.getElementById('descSticker').value = '';
+    document.getElementById('statusSticker').value = 'ideia';
+
+    atualizarStickers();
+    alert('Ideia de sticker adicionada! 🎨');
+  }
+
+  function deletarSticker(id) {
+    if (confirm('Deletar essa ideia?')) {
+      let stickers = JSON.parse(localStorage.getItem('amorHerdadoStickers')) || [];
+      stickers = stickers.filter(s => s.id !== id);
+      localStorage.setItem('amorHerdadoStickers', JSON.stringify(stickers));
+      atualizarStickers();
+    }
+  }
+
+  function atualizarStickers() {
+    let stickers = JSON.parse(localStorage.getItem('amorHerdadoStickers')) || [];
+    
+    const statusEmoji = {
+      'ideia': '💡',
+      'design': '🎨',
+      'pronto': '✅',
+      'lancado': '🚀'
+    };
+
+    const pilarEmoji = {
+      'amor-de-curva': '❤️',
+      'inter': '⚽',
+      'conquistas': '🎫'
+    };
+
+    const tabelaStickers = document.getElementById('tabelaStickers');
+    tabelaStickers.innerHTML = stickers.length === 0 ?
+      '<tr><td colspan="5" style="text-align: center; color: #999;">Nenhuma ideia registrada ainda</td></tr>' :
+      stickers.map(s => `
+        <tr>
+          <td><strong>${s.nome}</strong></td>
+          <td>${pilarEmoji[s.pilar]} ${s.pilar.replace('-', ' ')}</td>
+          <td>${statusEmoji[s.status]} ${s.status}</td>
+          <td style="font-size: 11px; color: #666;">${s.desc.substring(0, 50)}...</td>
+          <td><button class="btn btn-danger" onclick="deletarSticker(${s.id})">Del</button></td>
+        </tr>
+      `).join('');
+
+    // Próximos stickers (design + pronto)
+    const proximosStickers = stickers.filter(s => s.status === 'design' || s.status === 'pronto');
+    const container = document.getElementById('proximosStickers');
+    
+    if (proximosStickers.length === 0) {
+      container.innerHTML = '<p style="color: #999;">Nenhum sticker em desenvolvimento no momento</p>';
+    } else {
+      container.innerHTML = proximosStickers.map(s => `
+        <div style="background: #F5F0EB; border-left: 4px solid #C8102E; padding: 16px; border-radius: 2px;">
+          <div style="font-weight: 600; margin-bottom: 6px;">${s.nome}</div>
+          <div style="font-size: 12px; color: #666; margin-bottom: 10px;">${s.desc}</div>
+          <div style="font-size: 11px; color: #999;">Status: ${s.status}</div>
+        </div>
+      `).join('');
+    }
+  }
+
   function showTab(tabName) {
     document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
     document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
     document.getElementById(tabName).classList.add('active');
     event.target.classList.add('active');
     mostrarProgresso();
+    if (tabName === 'stickers') {
+      atualizarStickers();
+    }
   }
 
   window.onload = function() {
     atualizarKPIs();
     atualizarTabelas();
     mostrarProgresso();
+    atualizarStickers();
     const hoje = new Date().toISOString().split('T')[0];
     document.getElementById('dataVenda').value = hoje;
   };
