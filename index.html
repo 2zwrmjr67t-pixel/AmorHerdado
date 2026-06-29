@@ -337,6 +337,73 @@
     .kpi-grid { grid-template-columns: 1fr; }
     .kpi-value { font-size: 24px; }
     .tab-btn { font-size: 10px; padding: 10px 8px; }
+    
+    /* Tabelas responsivas */
+    .table {
+      font-size: 10px;
+    }
+    
+    .table th,
+    .table td {
+      padding: 8px 4px;
+      font-size: 10px;
+    }
+    
+    .table th {
+      font-size: 9px;
+      padding: 8px 4px;
+    }
+    
+    /* Esconder colunas em mobile */
+    .table-hide-mobile {
+      display: none;
+    }
+    
+    /* Faz tabela scrollar horizontalmente em mobile */
+    .section {
+      overflow-x: auto;
+    }
+    
+    .table {
+      min-width: 100%;
+      width: 100%;
+      display: block;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    
+    .table thead,
+    .table tbody,
+    .table th,
+    .table td,
+    .table tr {
+      display: block;
+    }
+    
+    .table thead {
+      display: table;
+      width: 100%;
+      table-layout: fixed;
+    }
+    
+    .table tbody {
+      display: block;
+      width: 100%;
+      overflow-y: auto;
+    }
+    
+    .table tr {
+      width: 100%;
+      display: table;
+      table-layout: fixed;
+      border-bottom: 1px solid #DDDDDD;
+      margin-bottom: 8px;
+    }
+    
+    .btn-danger {
+      padding: 4px 8px;
+      font-size: 10px;
+    }
   }
 </style>
 </head>
