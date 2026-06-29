@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Amor Herdado — Painel Completo</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Playfair+Display:ital,wght@0,700;1,400&family=Inter:wght@300;400;500;600&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  
+  body {
+    background: #F5F0EB;
+    color: #1A1410;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+  }
+
+  .container { max-width: 1000px; margin: 0 auto; padding: 0; }
+
+  /* ── HEADER ── */
+  .header {
+    background: linear-gradient(135deg, #C8102E 0%, #8B0A1F 100%);
+    color: white;
+    padding: 30px 20px;
+    text-align: center;
+    border-bottom: 3px solid #1A1410;
+  }
+
+  .header h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 36px;
+    margin-bottom: 4px;
+    letter-spacing: 0.05em;
+  }
+
+  .header p {
+    font-size: 13px;
+    opacity: 0.95;
+  }
+
+  /* ── TABS ── */
+  .tabs {
+    display: flex;
+    background: white;
+    border-bottom: 2px solid #C8102E;
+    overflow-x: auto;
+    flex-wrap: wrap;
+  }
+
+  .tab-btn {
+    flex: 1;
+    min-width: 100px;
+    padding: 12px 14px;
+    border: none;
+    background: white;
+    color: #1A1410;
+    cursor: pointer;
+    font-size: 11px;
+    font-weight: 600;
+    border-bottom: 3px solid transparent;
+    transition: all 0.2s;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .tab-btn:hover {
+    background: #F5F0EB;
+  }
+
+  .tab-btn.active {
+    border-bottom-color: #C8102E;
+    color: #C8102E;
+  }
+
+  /* ── CONTEÚDO ── */
+  .tab-content {
+    display: none;
+    padding: 30px 20px;
+    animation: fadeIn 0.3s;
+  }
+
+  .tab-content.active {
+    display: block;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  /* ── CARDS KPI ── */
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 16px;
+    margin-bottom: 30px;
+  }
+
+  .kpi {
+    background: white;
+    border-left: 4px solid #C8102E;
+    padding: 20px;
+    border-radius: 2px;
+  }
+
+  .kpi-label {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #C8102E;
+    margin-bottom: 8px;
+    font-weight: 600;
+  }
+
+  .kpi-value {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    color: #1A1410;
+    line-height: 1;
+  }
+
+  .kpi-desc {
+    font-size: 11px;
+    color: #999;
+    margin-top: 6px;
+  }
+
+  /* ── SEÇÃO ── */
+  .section {
+    background: white;
+    padding: 24px;
+    margin-bottom: 20px;
+    border-radius: 2px;
+    border-left: 4px solid #C8102E;
+  }
+
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px;
+    color: #C8102E;
+    margin-bottom: 16px;
+    letter-spacing: 0.03em;
+  }
+
+  .prose {
+    font-size: 14px;
+    line-height: 1.8;
+    color: #333;
+    margin-bottom: 14px;
+  }
+
+  .prose strong { color: #1A1410; font-weight: 600; }
+  .prose em { font-style: italic; color: #C8102E; }
+
+  /* ── VALORES ── */
+  .valor {
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #EEEEEE;
+  }
+
+  .valor:last-child { border-bottom: none; margin-bottom: 0; }
+
+  .valor-nome {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 16px;
+    color: #C8102E;
+    margin-bottom: 6px;
+  }
+
+  .valor-desc {
+    font-size: 13px;
+    line-height: 1.7;
+    color: #666;
+  }
+
+  /* ── MANIFESTO ── */
+  .manifesto {
+    background: #FFF5F0;
+    border-left: 4px solid #C8102E;
+    padding: 20px;
+    margin: 20px 0;
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 14px;
+    line-height: 1.8;
+    color: #1A1410;
+  }
+
+  .manifesto p {
+    margin-bottom: 12px;
+  }
+
+  .manifesto p:last-child { margin-bottom: 0; }
+
+  /* ── FORM ── */
+  .form-group {
+    margin-bottom: 16px;
+  }
+
+  .form-group label {
+    display: block;
+    font-size: 11px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: #1A1410;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .form-group input,
+  .form-group select {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #DDDDDD;
+    border-radius: 2px;
+    font-size: 13px;
+    font-family: 'Inter', sans-serif;
+  }
+
+  .form-group input:focus,
+  .form-group select:focus {
+    outline: none;
+    border-color: #C8102E;
+    box-shadow: 0 0 0 2px rgba(200,16,46,0.1);
+  }
+
+  /* ── BOTÕES ── */
+  .btn {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 2px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .btn-primary {
+    background: #C8102E;
+    color: white;
+  }
+
+  .btn-primary:hover {
+    background: #8B0A1F;
+  }
+
+  .btn-danger {
+    background: #999;
+    color: white;
+    font-size: 11px;
+    padding: 6px 10px;
+  }
+
+  .btn-danger:hover {
+    background: #666;
+  }
+
+  /* ── TABELA ── */
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 16px;
+    font-size: 12px;
+  }
+
+  .table th {
+    background: #F5F0EB;
+    padding: 12px;
+    text-align: left;
+    font-size: 11px;
+    font-weight: 600;
+    border-bottom: 2px solid #C8102E;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .table td {
+    padding: 12px;
+    border-bottom: 1px solid #DDDDDD;
+    font-size: 12px;
+  }
+
+  .table tr:hover {
+    background: #FAFAFA;
+  }
+
+  /* ── DESTAQUE ── */
+  .highlight {
+    background: #FFF5F0;
+    border-left: 4px solid #C8102E;
+    padding: 16px;
+    margin-bottom: 20px;
+    border-radius: 2px;
+  }
+
+  .highlight strong {
+    color: #C8102E;
+  }
+
+  /* ── PILARES ── */
+  .pilar-card {
+    background: #F5F0EB;
+    padding: 20px;
+    margin-bottom: 16px;
+    border-left: 4px solid #C8102E;
+  }
+
+  .pilar-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 16px;
+    color: #C8102E;
+    margin-bottom: 8px;
+  }
+
+  .pilar-desc {
+    font-size: 13px;
+    line-height: 1.6;
+    color: #666;
+  }
+
+  /* ── FOOTER ── */
+  .footer {
+    background: #1A1410;
+    color: white;
+    padding: 30px 20px;
+    text-align: center;
+    font-size: 12px;
+  }
+
+  /* ── RESPONSIVO ── */
+  @media (max-width: 600px) {
+    .header h1 { font-size: 28px; }
+    .kpi-grid { grid-template-columns: 1fr; }
+    .kpi-value { font-size: 24px; }
+    .tab-btn { font-size: 10px; padding: 10px 8px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- HEADER -->
+  <div class="header">
+    <h1>Amor Herdado</h1>
+    <p>Seu painel completo — Marca, vendas, visão, tudo junto</p>
+  </div>
+
+  <!-- TABS -->
+  <div class="tabs">
+    <button class="tab-btn active" onclick="showTab('inicio')">🏠 Início</button>
+    <button class="tab-btn" onclick="showTab('missao')">🎯 Missão</button>
+    <button class="tab-btn" onclick="showTab('visao')">👁️ Visão</button>
+    <button class="tab-btn" onclick="showTab('valores')">❤️ Valores</button>
+    <button class="tab-btn" onclick="showTab('manifesto')">📄 Manifesto</button>
+    <button class="tab-btn" onclick="showTab('pilares')">⚙️ 3 Pilares</button>
+    <button class="tab-btn" onclick="showTab('vendas')">📊 Vendas</button>
+    <button class="tab-btn" onclick="showTab('ingressos')">🎫 Ingressos</button>
+    <button class="tab-btn" onclick="showTab('analise')">📈 Análise</button>
+  </div>
+
+  <!-- TAB: INÍCIO -->
+  <div id="inicio" class="tab-content active">
+    <div class="kpi-grid">
+      <div class="kpi">
+        <div class="kpi-label">Total Vendido</div>
+        <div class="kpi-value" id="totalPacks">0</div>
+        <div class="kpi-desc">Packs</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Faturamento</div>
+        <div class="kpi-value" id="faturamento">R$ 0</div>
+        <div class="kpi-desc">Total</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Seu Lucro</div>
+        <div class="kpi-value" id="lucroTotal">R$ 0</div>
+        <div class="kpi-desc">Ganho real</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Meta este Mês</div>
+        <div class="kpi-value" id="metaDisplay">—</div>
+        <div class="kpi-desc">Packs</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Bem-vinda ao Painel!</div>
+      <p class="prose">Aqui está tudo que você, seu pai e sua mãe construíram juntos.</p>
+      <p class="prose">Use as abas acima pra:</p>
+      <ul style="padding-left: 20px; line-height: 2;">
+        <li><strong>Missão/Visão/Valores:</strong> Relembrar por que vocês estão fazendo isso</li>
+        <li><strong>3 Pilares:</strong> Entender como os produtos estão organizados</li>
+        <li><strong>Vendas:</strong> Registrar cada venda que você faz</li>
+        <li><strong>Análise:</strong> Ver como está o crescimento</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <div class="section-title">O que é Amor Herdado?</div>
+      <p class="prose">Você, seu pai e sua mãe estão criando uma marca que fala sobre transmitir amor pelo Internacional. Não é só adesivo — é história. É a sua história.</p>
+      <p class="prose">E você é a protagonista dessa história.</p>
+    </div>
+  </div>
+
+  <!-- TAB: MISSÃO -->
+  <div id="missao" class="tab-content">
+    <div class="section">
+      <div class="section-title">Nossa Missão</div>
+      <p class="prose">Guardar e transmitir o jeito colorado de viver o Inter — não só nos noventa minutos, mas no fogo que acende cedo, na espera que é ritual, na devoção que atravessa gerações. Transformar esse cotidiano em produtos que famílias reconhecem como seus.</p>
+    </div>
+
+    <div class="section">
+      <div class="section-title">O que isso quer dizer?</div>
+      <div class="prose">
+        <p><strong>Guardar:</strong> A gente quer deixar registrado para sempre como a gente vive o Inter.</p>
+        <p><strong>Transmitir:</strong> Passar adiante — você para seus filhos, assim como seu pai passou para você.</p>
+        <p><strong>O jeito colorado:</strong> Não é jeito de qualquer torcida. É específico de quem é do Inter, especialmente aqui do Rio Grande do Sul.</p>
+        <p><strong>Vivendo no Marinha:</strong> No fogo que acende cedo, nos trapos que a gente faz com as mãos, no bumbo batendo, na banda tocando.</p>
+        <p><strong>Transformar em produtos:</strong> Adesivos, trapos, camisetas, ingressos memoráveis — coisas que as famílias podem guardar e lembrar para sempre.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: VISÃO -->
+  <div id="visao" class="tab-content">
+    <div class="section">
+      <div class="section-title">Nossa Visão</div>
+      <p class="prose">Ser a marca que famílias coloradas de verdade — as que chegam cedo, que fazem o próprio trapo, que ensinam os filhos a rezar pro Fernandão — reconhecem como espelho. Não de quem torce. De quem <em>vive</em>.</p>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Entendendo a Visão</div>
+      <div class="prose">
+        <p><strong>Famílias coloradas de verdade:</strong> Não é gente que vai uma vez ao jogo. É gente que vive o Inter todos os dias.</p>
+        <p><strong>Que chegam cedo:</strong> Vocês chegam cedo no Marinha. Outros também. Isso é compromisso.</p>
+        <p><strong>Que fazem o próprio trapo:</strong> Não compram pronto. Fazem com as mãos. Como vocês fazem.</p>
+        <p><strong>Que ensinam os filhos:</strong> Não é só brincar. É transmissão real de cultura.</p>
+        <p><strong>Como espelho:</strong> Quando essas famílias veem Amor Herdado, elas pensam: "isso sou eu, isso é minha história".</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: VALORES -->
+  <div id="valores" class="tab-content">
+    <div class="section">
+      <div class="section-title">Nossos Valores</div>
+      
+      <div class="valor">
+        <div class="valor-nome">🔄 Ritual</div>
+        <div class="valor-desc">O jogo começa às dez da manhã, quando o fogo acende. A espera é parte da fé. Quem chega cedo não tem pressa — tem devoção.</div>
+      </div>
+
+      <div class="valor">
+        <div class="valor-nome">📚 Transmissão</div>
+        <div class="valor-desc">O amor pelo Inter não se explica — se vive na frente de quem você ama até que ele também sinta. É ensinado sem palavras, no cheiro do asado, no som da banda, no trapo feito à mão.</div>
+      </div>
+
+      <div class="valor">
+        <div class="valor-nome">⚡ Intensidade</div>
+        <div class="valor-desc">Amor de curva não é calmo. É trapo, é grito, é banda, é rivalidade sentida nas entranhas. Intensidade com família ao lado não é contradição — é o legado mais honesto que existe.</div>
+      </div>
+
+      <div class="valor">
+        <div class="valor-nome">🪶 Leveza</div>
+        <div class="valor-desc">A linha entre fanatismo e poesia é guardada com cuidado. Você brinca enquanto o fogo pega. Isso não diminui a paixão — é o que faz ela durar para sempre.</div>
+      </div>
+
+      <div class="valor">
+        <div class="valor-nome">🏠 Pertencimento</div>
+        <div class="valor-desc">Ser colorado é pertencer a algo que não cabe em noventa minutos. É cotidiano, é casa, é a forma como a família se reconhece no mundo.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: MANIFESTO -->
+  <div id="manifesto" class="tab-content">
+    <div class="section">
+      <div class="section-title">Nosso Manifesto</div>
+      <div class="manifesto">
+        <p>Tem coisas que você não compra. Você herda.</p>
+        <p>No Parque Marinha o jogo começa às dez da manhã.</p>
+        <p>O fogo acende, estendemos nosso trapo, as histórias circulam. Você está no meio de tudo — vivendo o Inter do jeito que o Inter deve ser vivido.</p>
+        <p>Ao natural você vai assimilando essa cultura. Criando histórias sua. Olhando pro que foi feito com as próprias mãos. Sentindo que pertence.</p>
+        <p>Quando o bumbo bate ao soar dos trompetes, na batida da murga, entre os tirantes estendidos, você já faz parte da Banda.</p>
+        <p>Compartilhamos o que temos em comum: o amor a nossas cores, a idolatria a Fernandão, as histórias que vivemos juntos sem estar lado a lado.</p>
+        <p>Amor Herdado nasceu desse momento.</p>
+        <p>De uma menina que decidiu, com sua família, criar algo que representasse o que a gente sente quando está junto — no fogo, no trapo, na murga, no grito.</p>
+        <p>Não é uma loja. É um diário em produto.</p>
+        <p>Cada adesivo que sai daqui carrega uma manhã no Marinha, uma batida de bumbo que ecoou dentro, o pertencimento que não precisa de explicação.</p>
+        <p>Se você é colorado e sabe que o jogo começa muito antes do apito — você sabe exatamente do que estamos falando.</p>
+        <p>Isso é o Amor Herdado.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: 3 PILARES -->
+  <div id="pilares" class="tab-content">
+    <div class="section">
+      <div class="section-title">Nossas Três Linhas de Produtos</div>
+      <p class="prose">A gente divide tudo em 3 pilares. Cada pilar tem sua própria história, seus produtos, seu jeito de comunicar.</p>
+    </div>
+
+    <div class="section">
+      <div class="pilar-title">❤️ PILAR 1 — Amor de Curva</div>
+      <div class="pilar-desc">
+        <strong>O quê:</strong> Produtos que falam sobre a intensidade, celebração, e família vivendo o Inter junto.<br><br>
+        <strong>Produtos:</strong> Adesivos com frases ("Amor de Curva", "É trapo, é grito, é banda"), trapos pequenos, camisetas, pulseiras.<br><br>
+        <strong>Conteúdo:</strong> Vídeos fazendo trapo, stories ao vivo do jogo, momentos genuínos no estádio, perguntas "Como você vive seu Amor de Curva?"<br><br>
+        <strong>Por quê:</strong> Isso é vocês. É o coração da marca. Tudo começa aqui.
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="pilar-title">⚽ PILAR 2 — Inter</div>
+      <div class="pilar-desc">
+        <strong>O quê:</strong> Produtos que celebram a identidade do time, heróis, identidade gaúcha, história.<br><br>
+        <strong>Produtos:</strong> Adesivos com ídolos (Fernandão), elementos do RS (mapa, pampa, mate), símbolos do Inter, pins esmaltados.<br><br>
+        <strong>Conteúdo:</strong> Histórias do time, quem era cada herói, conexão com Rio Grande do Sul, entrevistas sobre ídolos.<br><br>
+        <strong>Por quê:</strong> Porque o Inter tem história. Vocês não criaram o Inter — vocês estão contando a história dele.
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="pilar-title">🎫 PILAR 3 — Conquistas</div>
+      <div class="pilar-desc">
+        <strong>O quê:</strong> Produtos que celebram momentos, vitórias, marcos — pessoais e do time.<br><br>
+        <strong>Produtos:</strong> Adesivos "Primeiro jogo" (personalizável), "Eu estava lá" (com datas de jogos memoráveis), mini trapos comemorativos, ingressos históricos com QR code.<br><br>
+        <strong>Conteúdo:</strong> Documentar cada jogo, "Você estava lá?", flashbacks, timeline de crescimento, celebrações genuínas.<br><br>
+        <strong>Por quê:</strong> Porque todo dia é conquista. Cada venda é conquista. Cada jogo é conquista. Isso prova que Amor Herdado é real.
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: VENDAS -->
+  <div id="vendas" class="tab-content">
+    <div class="kpi-grid">
+      <div class="kpi">
+        <div class="kpi-label">Packs Vendidos</div>
+        <div class="kpi-value" id="vendas-packs">0</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Faturamento</div>
+        <div class="kpi-value" id="vendas-fat">R$ 0</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Lucro</div>
+        <div class="kpi-value" id="vendas-lucro">R$ 0</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Registrar Nova Venda</div>
+      <div class="form-group">
+        <label>Data</label>
+        <input type="date" id="dataVenda">
+      </div>
+      <div class="form-group">
+        <label>Quantos packs?</label>
+        <input type="number" id="qtdPacks" placeholder="Ex: 2" min="1">
+      </div>
+      <div class="form-group">
+        <label>Preço de venda (por pack)</label>
+        <input type="number" id="precoVenda" placeholder="Ex: 15" step="0.01" min="1">
+      </div>
+      <div class="form-group">
+        <label>Quem comprou?</label>
+        <input type="text" id="descricao" placeholder="Ex: Amiga da escola">
+      </div>
+      <button class="btn btn-primary" onclick="adicionarVenda()">Registrar Venda</button>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Últimas Vendas</div>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Data</th>
+            <th>Packs</th>
+            <th>Preço</th>
+            <th>Faturamento</th>
+            <th>Lucro</th>
+            <th>Cliente</th>
+            <th>Ação</th>
+          </tr>
+        </thead>
+        <tbody id="tabelaVendas">
+          <tr><td colspan="7" style="text-align: center; color: #999;">Nenhuma venda registrada</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- TAB: INGRESSOS -->
+  <div id="ingressos" class="tab-content">
+    <div class="highlight">
+      <strong>📌 Linha em desenvolvimento:</strong> Ingressos Memoráveis com QR Code. Aqui você vai planejar lançamentos de ingressos históricos do Inter.
+    </div>
+
+    <div class="section">
+      <div class="section-title">Próximo Ingresso a Lançar</div>
+      <div class="form-group">
+        <label>Nome do ingresso</label>
+        <input type="text" placeholder="Ex: Tri Campeonato 1975">
+      </div>
+      <div class="form-group">
+        <label>Data/Época</label>
+        <input type="text" placeholder="Ex: 15 de outubro de 1975">
+      </div>
+      <div class="form-group">
+        <label>História por trás</label>
+        <textarea style="width: 100%; padding: 10px; border: 1px solid #DDD; border-radius: 2px; font-family: 'Inter', sans-serif;" rows="3" placeholder="A história..."></textarea>
+      </div>
+      <button class="btn btn-primary">Salvar Ideia</button>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Seus 3 Pilares de Ingressos</div>
+      <p class="prose"><strong>Amor de Curva:</strong> Ingressos que celebram a intensidade, a banda, o trapo.<br><br><strong>Inter:</strong> Ingressos históricos (1975, 1980, 2005, etc) que contam história do time.<br><br><strong>Conquistas:</strong> Ingressos personalizados com QR code — seu primeiro jogo, jogo que você estava lá, momentos memoráveis.</p>
+    </div>
+  </div>
+
+  <!-- TAB: ANÁLISE -->
+  <div id="analise" class="tab-content">
+    <div class="kpi-grid">
+      <div class="kpi">
+        <div class="kpi-label">Ticket Médio</div>
+        <div class="kpi-value" id="ticket">R$ 0</div>
+        <div class="kpi-desc">Por cliente</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Margem %</div>
+        <div class="kpi-value" id="margem">0%</div>
+        <div class="kpi-desc">Lucro</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Este Mês</div>
+        <div class="kpi-value" id="vendaMês">0</div>
+        <div class="kpi-desc">Packs</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Sua Meta</div>
+      <div class="form-group">
+        <label>Quantos packs você quer vender este mês?</label>
+        <input type="number" id="metaPacks" placeholder="Ex: 20" min="1">
+      </div>
+      <button class="btn btn-primary" onclick="salvarMeta()">Salvar Meta</button>
+      <div id="progressoMeta" style="margin-top: 20px;"></div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Dicas pra Vender Mais</div>
+      <div class="prose">
+        <p>💡 <strong>Compartilhe sua história:</strong> Quando você fala por que criou Amor Herdado, as pessoas compram. Não são adesivos — é sua história que elas estão comprando.</p>
+        <p>💡 <strong>Aumente o preço aos poucos:</strong> Comece em R$ 10, depois tenta R$ 15, depois R$ 20. Vê o que a galera paga.</p>
+        <p>💡 <strong>Crie urgência:</strong> "Esse adesivo só sai enquanto tiver jogo do Inter" — faz as pessoas comprarem na hora.</p>
+        <p>💡 <strong>Novos produtos:</strong> Quando você lança algo novo, muda tudo. Ingressos históricos, trapos pequenos, camisetas — cada um atrai cliente diferente.</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <p><strong>Amor Herdado</strong> — Você, seu pai e sua mãe criando juntos 🔴⚪</p>
+  <p>Cada venda é uma conquista. Cada adesivo é uma história. Cada história é um legado.</p>
+</div>
+
+<script>
+  const CUSTO_POR_PACK = 3.42;
+
+  function carregarDados() {
+    return JSON.parse(localStorage.getItem('amorHerdadoVendas')) || [];
+  }
+
+  function salvarDados(dados) {
+    localStorage.setItem('amorHerdadoVendas', JSON.stringify(dados));
+    atualizarKPIs();
+    atualizarTabelas();
+  }
+
+  function adicionarVenda() {
+    const data = document.getElementById('dataVenda').value;
+    const qtd = parseInt(document.getElementById('qtdPacks').value);
+    const preco = parseFloat(document.getElementById('precoVenda').value);
+    const desc = document.getElementById('descricao').value;
+
+    if (!data || !qtd || !preco) {
+      alert('Preenche todos os campos!');
+      return;
+    }
+
+    const venda = {
+      id: Date.now(),
+      data,
+      qtd,
+      preco,
+      desc,
+      faturamento: qtd * preco,
+      custo: qtd * CUSTO_POR_PACK,
+      lucro: (qtd * preco) - (qtd * CUSTO_POR_PACK)
+    };
+
+    const dados = carregarDados();
+    dados.push(venda);
+    salvarDados(dados);
+
+    document.getElementById('dataVenda').value = '';
+    document.getElementById('qtdPacks').value = '';
+    document.getElementById('precoVenda').value = '';
+    document.getElementById('descricao').value = '';
+
+    alert('Venda registrada! 🎉');
+  }
+
+  function deletarVenda(id) {
+    if (confirm('Deletar?')) {
+      const dados = carregarDados();
+      salvarDados(dados.filter(v => v.id !== id));
+    }
+  }
+
+  function atualizarKPIs() {
+    const dados = carregarDados();
+    
+    const totalPacks = dados.reduce((sum, v) => sum + v.qtd, 0);
+    const faturamento = dados.reduce((sum, v) => sum + v.faturamento, 0);
+    const custoTotal = dados.reduce((sum, v) => sum + v.custo, 0);
+    const lucroTotal = faturamento - custoTotal;
+    const ticketMédio = dados.length > 0 ? faturamento / dados.length : 0;
+    const margem = faturamento > 0 ? (lucroTotal / faturamento * 100).toFixed(1) : 0;
+
+    document.getElementById('totalPacks').textContent = totalPacks;
+    document.getElementById('faturamento').textContent = 'R$ ' + faturamento.toFixed(2);
+    document.getElementById('lucroTotal').textContent = 'R$ ' + lucroTotal.toFixed(2);
+    document.getElementById('vendas-packs').textContent = totalPacks;
+    document.getElementById('vendas-fat').textContent = 'R$ ' + faturamento.toFixed(2);
+    document.getElementById('vendas-lucro').textContent = 'R$ ' + lucroTotal.toFixed(2);
+    document.getElementById('ticket').textContent = 'R$ ' + ticketMédio.toFixed(2);
+    document.getElementById('margem').textContent = margem + '%';
+
+    const agora = new Date();
+    const vendaMês = dados.filter(v => {
+      const data = new Date(v.data);
+      return data.getMonth() === agora.getMonth();
+    }).reduce((sum, v) => sum + v.qtd, 0);
+    document.getElementById('vendaMês').textContent = vendaMês;
+  }
+
+  function atualizarTabelas() {
+    const dados = carregarDados().sort((a, b) => new Date(b.data) - new Date(a.data));
+
+    const tabelaVendas = document.getElementById('tabelaVendas');
+    tabelaVendas.innerHTML = dados.length === 0 ?
+      '<tr><td colspan="7" style="text-align: center; color: #999;">Nenhuma venda registrada</td></tr>' :
+      dados.map(v => `
+        <tr>
+          <td>${new Date(v.data).toLocaleDateString('pt-BR')}</td>
+          <td>${v.qtd}</td>
+          <td>R$ ${v.preco.toFixed(2)}</td>
+          <td>R$ ${v.faturamento.toFixed(2)}</td>
+          <td>R$ ${v.lucro.toFixed(2)}</td>
+          <td>${v.desc}</td>
+          <td><button class="btn btn-danger" onclick="deletarVenda(${v.id})">Del</button></td>
+        </tr>
+      `).join('');
+  }
+
+  function salvarMeta() {
+    const meta = parseInt(document.getElementById('metaPacks').value);
+    if (!meta) {
+      alert('Digite a meta!');
+      return;
+    }
+    localStorage.setItem('metaPacks', meta);
+    mostrarProgresso();
+    alert('Meta salva! 🎯');
+  }
+
+  function mostrarProgresso() {
+    const meta = parseInt(localStorage.getItem('metaPacks')) || 0;
+    const dados = carregarDados();
+    const agora = new Date();
+    const vendasMês = dados.filter(v => {
+      const data = new Date(v.data);
+      return data.getMonth() === agora.getMonth();
+    }).reduce((sum, v) => sum + v.qtd, 0);
+
+    const progresso = meta > 0 ? (vendasMês / meta * 100).toFixed(0) : 0;
+    const faltam = Math.max(0, meta - vendasMês);
+
+    document.getElementById('metaDisplay').textContent = meta;
+    document.getElementById('progressoMeta').innerHTML = `
+      <div style="background: #FFF5F0; border-left: 4px solid #C8102E; padding: 16px; border-radius: 2px;">
+        <strong>Progresso: ${vendasMês}/${meta} packs</strong>
+        <div style="width: 100%; height: 20px; background: #DDD; border-radius: 2px; margin-top: 8px; overflow: hidden;">
+          <div style="width: ${progresso}%; height: 100%; background: #C8102E; transition: width 0.3s;"></div>
+        </div>
+        <p style="margin-top: 8px; font-size: 12px;">
+          ${faltam > 0 ? `Faltam <strong>${faltam} packs</strong> pra atingir a meta! Vamo! 💪` : '🎉 META ATINGIDA!'}
+        </p>
+      </div>
+    `;
+  }
+
+  function showTab(tabName) {
+    document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+    document.getElementById(tabName).classList.add('active');
+    event.target.classList.add('active');
+    mostrarProgresso();
+  }
+
+  window.onload = function() {
+    atualizarKPIs();
+    atualizarTabelas();
+    mostrarProgresso();
+    const hoje = new Date().toISOString().split('T')[0];
+    document.getElementById('dataVenda').value = hoje;
+  };
+</script>
+
+</body>
+</html>
